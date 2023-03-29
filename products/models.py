@@ -47,4 +47,6 @@ class Discount(models.Model):
         decimal_places=2)
     code = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
-    discount_type = models.CharField(max_length=255, choices=((0, 'В деньгах'), (1, 'Проценты')))
+    discount_type = models.CharField(max_length=255,
+                                     choices=((0, 'В деньгах'),
+                                              (1, 'Проценты')))

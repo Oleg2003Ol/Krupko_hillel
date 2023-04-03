@@ -32,6 +32,8 @@ class Category(PKMixin):
         else:
             return mark_safe('<b>NO IMAGE</b>')
 
+    get_image.short_description = "Image"
+
 
 class Product(PKMixin):
     name = models.CharField(max_length=255)
@@ -59,3 +61,5 @@ class Product(PKMixin):
             return mark_safe(f'<img src="{self.image.url}" width="64" height="64"')
         else:
             return mark_safe('<b>NO IMAGE</b>')
+
+    get_image.short_description = "Image"

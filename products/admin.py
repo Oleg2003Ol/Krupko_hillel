@@ -10,16 +10,10 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ("get_image",)
     filter_horizontal = ("categories", "products")
 
-    @admin.display(description='Image')
-    def get_image(self, obj):
-        return mark_safe(f'<img src="{obj.image.url}" width="64" height="64"')
-
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("get_image", "name")
     readonly_fields = ("get_image",)
 
-    @admin.display(description='Image')
-    def get_image(self, obj):
-        return mark_safe(f'<img src="{obj.image.url}" width="64" height="64"')
+

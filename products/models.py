@@ -11,7 +11,7 @@ def upload_to(instance, filename):
     return f'products/images/{str(instance.pk)}{extension}'
 
 
-class Category(models.Model):
+class Category(PKMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(
         blank=True,
@@ -20,8 +20,9 @@ class Category(models.Model):
     image = models.ImageField(upload_to=upload_to,
                               null=True,
                               blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.id} - {self.name} - {self.image}"
 
 
 class Product(PKMixin):
@@ -43,16 +44,4 @@ class Product(PKMixin):
         decimal_places=DECIMAL_PLACES)
 
     def __str__(self):
-        return f"{self.image} {self.name}"
-
-
-class Discount(models.Model):
-    amount = models.DecimalField(
-        max_digits=18,
-        decimal_places=2)
-    code = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    discount_type = models.CharField(max_length=255,
-                                     choices=((0, 'В деньгах'),
-                                              (1, 'Проценты')))
-    # поменять на SmallInteger
+        return f"{self.image} - {self.name}"

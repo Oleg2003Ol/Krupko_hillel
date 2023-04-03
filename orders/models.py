@@ -59,7 +59,7 @@ class Order(PKMixin):
         total_amount = 0
         for item in self.order_items.iterator():
             total_amount += item.price * item.quantity
-        if self.discount and self.Discount.is_valid:
+        if self.discount and self.discount.is_valid:
             if self.discount.discount_type == DiscountTypes.PERCENT:
                 total_amount -= (total_amount * (self.discount.amount / 100))
             else:

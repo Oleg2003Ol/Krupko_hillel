@@ -6,6 +6,7 @@ from project.mixins.models import PKMixin
 
 
 class Feedback(PKMixin):
+    objects = None
     text = models.TextField()
     user = models.ForeignKey(
         get_user_model(),
@@ -14,3 +15,6 @@ class Feedback(PKMixin):
     rating = models.PositiveSmallIntegerField(
         validators=(MinValueValidator(1), MaxValueValidator(5),)
     )
+
+    def __str__(self):
+        return f"{self.text} - {self.rating}"

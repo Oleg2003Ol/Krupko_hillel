@@ -8,9 +8,9 @@ from feedbacks.models import Feedback
 
 
 @login_required
-def feedbacks(request):
-    form = FeedbackModelForm(request.user)
+def feedbacks(request, *args, **kwargs):
     user = request.user
+    form = FeedbackModelForm(request.user)
     if request.method == 'POST':
         form = FeedbackModelForm(user=request.user, data=request.POST)
         if form.is_valid():

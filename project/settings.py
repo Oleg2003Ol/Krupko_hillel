@@ -15,6 +15,7 @@ import environ
 from pathlib import Path
 
 from django.template.context_processors import media
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/feedbacks/'
+LOGIN_REDIRECT_URL = reverse_lazy('feedbacks_create')
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 # Internationalization

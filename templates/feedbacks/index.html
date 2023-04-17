@@ -2,13 +2,19 @@
 
 {% block content %}
     <div class="col-12 col-lg-6 offset-lg-3">
-        <h2>Feedbacks</h2>
+        <h2 class="text-center">Feedbacks</h2>
+        {% if user.is_authenticated %}
+            <a href="{% url 'feedbacks_create' %}" class="btn btn-primary">Add Feedback</a>
+        {% endif %}
         <ul class="list-group py-3">
             {% for feedback in object_list %}
                 <li class="list-group-item">
-                    <a class="d-flex justify-content-between" data-bs-toggle="collapse" href="#collapse{{ feedback.id }}">
-                        <span>{{ feedback.user.username }} - {{ feedback.rating }}</span>
-                        <span>{{ feedback.created_at }}</span>
+                    <a class="d-flex justify-content-between link-dark link-underline link-underline-opacity-0"
+                       data-bs-toggle="collapse"
+                       href="#collapse{{ feedback.id }}">
+                        <span class="bg-primary text-white px-2 rounded">{{ feedback.user.username }}</span>
+                        <span> {% include 'parts/stars.html' with count=feedback.rating %}</span>
+                        <span>{{ feedback.created_at|date:"d M Y" }}</span>
                     </a>
                     <div class="collapse pt-3 text-center" id="collapse{{ feedback.id }}">
                         {{ feedback.text }}

@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% for feedback in feedbacks %}
-    <p> Feedback: {{ feedback.text }}. Rating: {{ feedback.rating }}</p>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-12 col-lg-6 offset-lg-3">
+        <h2>Feedbacks</h2>
+        <ul class="list-group py-3">
+            {% for feedback in object_list %}
+                <li class="list-group-item">
+                    <a class="d-flex justify-content-between" data-bs-toggle="collapse" href="#collapse{{ feedback.id }}">
+                        <span>{{ feedback.user.username }} - {{ feedback.rating }}</span>
+                        <span>{{ feedback.created_at }}</span>
+                    </a>
+                    <div class="collapse pt-3 text-center" id="collapse{{ feedback.id }}">
+                        {{ feedback.text }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}

@@ -29,8 +29,3 @@ class FeedbackView(FormView):
 class FeedbackList(ListView):
     template_name = 'feedbacks/index.html'
     model = Feedback
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['feedbacks'] = Feedback.objects.all()
-    #     return context

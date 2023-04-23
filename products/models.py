@@ -24,7 +24,7 @@ class Category(PKMixin):
                               blank=True)
 
     def __str__(self):
-        return f"{self.id} - {self.name} - {self.image}"
+        return self.name
 
     def get_image(self):
         if self.image:
@@ -54,7 +54,7 @@ class Product(PKMixin):
         decimal_places=DECIMAL_PLACES)
 
     def __str__(self):
-        return f"{self.image} - {self.name}"
+        return self.name
 
     def get_image(self):
         if self.image:

@@ -30,6 +30,7 @@ urlpatterns = [
     path("feedbacks/", include(feedbacks_urlpatterns)),
     path('accounts/', include(accounts_urlpatterns)),
     path('', include(main_urlpatterns))
+
 ]
 
 
@@ -38,3 +39,5 @@ if settings.DEBUG:
 
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_ROOT,
+                          document_root=settings.STATIC_ROOT)

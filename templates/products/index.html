@@ -1,28 +1,48 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <style>
-    .card-img-height {
-      height: 400px;
-      object-fit: cover;
-    }
-  </style>
-  <div class="row d-flex flex-wrap justify-content-around mt-4">
-    {% for product in products %}
-      <div class="col-md-4 mb-4 p-5 mr-2">
-        <div class="card h-100">
-          <img src="{{ product.image.url }}" class="card-img-top card-img-height" alt="{{ product.name }}">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">{{ product.description }}</p>
-            <p class="card-text">{{ product.category }}</p>
-            <p class="card-text">{{ product.price }}</p>
-            <a href="#" class="btn btn-primary">Buy</a>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+    <div class="row d-flex flex-wrap justify-content-around mt-4">
+        {% for product in products %}
+            <div class="col-md-4 mb-4 p-5 mr-2">
+                <div class="card h-100">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
+                    {% else %}
+                    <img src="{% static 'images/logo.png' %}" class="product-img"
+                         alt="{{ product.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ product.name }}
+                        </h5>
+                        <p class="card-text">
+                            {{ product.description }}
+                        </p>
+                        <p class="card-text">
+                            {{ product.category }}
+                        </p>
+                        <p class="card-text">
+                            {{ product.price }}
+                        </p>
+                        {% if product.products.exists %}
+                        <p>Sub:</p>
+                        {% for sub in product.products.iterator %}
+                            <div class="d-inline-flex flex-column rounded border p-2 m-1 sub-product">
+                                <p>{{ sub.name }}</p>
+                                <figure class="text-center d-inline">
+                                    <img src="{{ sub.image.url }}"
+                                         class="product-img p-3"
+                                         alt="{{ product.name }}">
+                                </figure>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                        <a href="#" class="btn btn-primary w-100">Buy</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
 
 

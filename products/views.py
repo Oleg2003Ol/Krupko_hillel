@@ -1,7 +1,6 @@
 import csv
 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, FormView
@@ -19,7 +18,7 @@ class ProductsListView(ListView):
 
 
 class ExportCSVView(View):
-    @staticmethod
+
     @method_decorator(login_required)
     def get(request, *args, **kwargs):
         headers = {
@@ -27,7 +26,7 @@ class ExportCSVView(View):
             'Content-Disposition': 'attachment; filename="products.csv"'
         }
         response = HttpResponse(headers=headers)
-        fields_name = ['name', 'description', 'sku', 'image', 'price', 'is_active']
+        fields_name = ['name', 'description', 'sku', 'image', 'price', 'is_active', 'categories']
         writer = csv.DictWriter(response, fieldnames=fields_name)
         writer.writeheader()
         for product in Product.objects.iterator():
@@ -52,7 +51,7 @@ class ProductImportCSVView(FormView):
     success_url = reverse_lazy('products')
 
     @method_decorator(login_required)
-    @method_decorator(user_passes_test(lambda u: u.is_superuser or u.is_staff))
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 

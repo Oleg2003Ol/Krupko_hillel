@@ -5,6 +5,9 @@
         <p>
             <a href="{% url 'export_to_csv' %}">Export to csv</a>
         </p>
+            <p>
+            <a href="{% url 'import_to_csv' %}">Import to csv</a>
+        </p>
     </div>
     <div class="row d-flex flex-wrap justify-content-around mt-4">
         {% for product in products %}

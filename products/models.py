@@ -46,7 +46,7 @@ class Product(PKMixin):
                               blank=True)
     sku = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
-    categories = models.ManyToManyField(Category, blank=True)
+    categories = models.ManyToManyField(Category, blank=True, unique=False)
     products = models.ManyToManyField("products.Product", blank=True)
     price = models.DecimalField(
         validators=[MinValueValidator(0)],

@@ -17,10 +17,10 @@ class ProductsListView(ListView):
     context_object_name = 'products'
 
 
+@method_decorator(login_required, name='dispatch')
 class ExportCSVView(View):
 
-    @method_decorator(login_required)
-    def get(request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         headers = {
             'Content-Type': 'text/csv',
             'Content-Disposition': 'attachment; filename="products.csv"'

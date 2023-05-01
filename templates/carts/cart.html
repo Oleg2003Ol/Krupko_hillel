@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Order Detail</h1>
+  {% if not order %}
+    <p>Your order is empty</p>
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.order_items.all %}
+          <tr>
+            <td>{{ item.product }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price * item.quantity }}</td>
+            <td>
+              <a href="{% url 'order_item_remove' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+            </td>
+          </tr>
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{{ order.get_total_amount }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Apply Discount</button>
+    </form>
+    <a href="{% url 'order_clear' %}" class="btn btn-danger">Clear Order</a>
+  {% endif %}
+{% endblock %}
+
+

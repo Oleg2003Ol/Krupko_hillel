@@ -1,8 +1,12 @@
 from os import path
 
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
+from django.views.generic import DetailView
 
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
@@ -47,6 +51,7 @@ class Product(PKMixin):
     sku = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     categories = models.ManyToManyField(Category, blank=True, unique=False)
+    favorites = models.BooleanField(default=False)
     products = models.ManyToManyField("products.Product", blank=True)
     price = models.DecimalField(
         validators=[MinValueValidator(0)],
@@ -63,3 +68,4 @@ class Product(PKMixin):
             return mark_safe('<b>NO IMAGE</b>')
 
     get_image.short_description = "Image"
+

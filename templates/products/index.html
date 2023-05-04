@@ -30,7 +30,7 @@
                             {{ product.category }}
                         </p>
                         <p class="card-text">
-                            {{ product.price }}
+                            {{ product.price_uah }}
                         </p>
                         {% if product.products.exists %}
                             <p>Sub:</p>
@@ -45,20 +45,13 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
-                        <form method="post" action="{% url 'order-add-item' pk=order.pk %}">
+                        <form method="post" action="{% url 'cart_action' 'add' %}">
                             {% csrf_token %}
                             <input type="hidden" name="product_id"
                                    value="{{ product.id }}">
                             <input type="submit" value="Add to cart"
                                    class="btn btn-warning w-100">
                         </form>
-                        {#                        <form method="post" action="{% url 'favourite_action' 'add' %}">#}
-                        {#                            {% csrf_token %}#}
-                        {#                            <input type="hidden" name="product_id"#}
-                        {#                                   value="{{ product.id }}">#}
-                        {#                            <input type="submit" value="Add to cart"#}
-                        {#                                   class="btn btn-warning w-10">#}
-                        {#                        </form>#}
                         <a href="{% url 'add_or_remove_favorite' product.id %}"
                            class="pe-3">
                             {% if not product.is_favorite %}

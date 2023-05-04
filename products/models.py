@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView
 
+from currencies.models import CurrencyHistory
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
 from project.model_choices import Currencies
@@ -66,6 +67,15 @@ class Product(PKMixin):
 
     def __str__(self):
         return self.name
+
+    @property
+    def price_uah(self):
+        latest_rate = CurrencyHistory.objects.filter(
+            code=self.currency
+        ).order_by('-created_at').first()
+        if not latest_rate:
+            return self.price
+        return self.price * latest_rate.sale
 
     def get_image(self):
         if self.image:

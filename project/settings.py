@@ -14,6 +14,7 @@ import os
 import environ
 from pathlib import Path
 
+from celery.schedules import crontab
 from django.template.context_processors import media
 from django.urls import reverse_lazy
 
@@ -46,8 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django_celery_results',
     'widget_tweaks',
+    'django_celery_beat',
+    'django_extensions',
 
     'products',
     'orders',
@@ -55,7 +58,8 @@ INSTALLED_APPS = [
     'accounts',
     'main',
     "tracking",
-    'favourites'
+    'favourites',
+    'currencies'
 ]
 
 MIDDLEWARE = [
@@ -125,7 +129,7 @@ LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -144,3 +148,14 @@ MEDIA_ROOT = 'media'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_ALWAYS_EAGER = False
+
+CELERY_BEAT_SCHEDULE = {
+    'Get currencies': {
+        'task': 'currencies.tasks.get_currencies_task',
+        'schedule': crontab(minute='49'),
+    },
+}

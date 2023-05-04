@@ -10,6 +10,7 @@ from django.views.generic import DetailView
 
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
+from project.model_choices import Currencies
 
 
 def upload_to(instance, filename):
@@ -57,6 +58,11 @@ class Product(PKMixin):
         validators=[MinValueValidator(0)],
         max_digits=MAX_DIGITS,
         decimal_places=DECIMAL_PLACES)
+    currency = models.CharField(
+        max_length=16,
+        choices=Currencies.choices,
+        default=Currencies.UAH
+    )
 
     def __str__(self):
         return self.name

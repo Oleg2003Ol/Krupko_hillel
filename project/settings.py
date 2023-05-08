@@ -157,6 +157,12 @@ CELERYD_POOL = 'gevent'
 CELERY_BEAT_SCHEDULE = {
     'Get currencies': {
         'task': 'currencies.tasks.get_currencies_task',
-        'schedule': crontab(minute='49'),
+        'schedule': crontab(),
     },
+}
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+    }
 }

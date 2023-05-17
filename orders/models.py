@@ -25,12 +25,12 @@ class Discount(models.Model):
         blank=True
     )
 
-    # @property
-    # def is_valid(self):
-    #     is_valid = self.is_active
-    #     if self.valid_until:
-    #         is_valid &= timezone.now() <= self.valid_until
-    #     return is_valid
+    @property
+    def is_valid(self):
+        is_valid = self.is_active
+        if self.valid_until:
+            is_valid &= timezone.now() <= self.valid_until
+        return is_valid
 
 
 class Order(PKMixin):
@@ -55,6 +55,12 @@ class Order(PKMixin):
     is_active = models.BooleanField(default=True)
     order_number = models.PositiveIntegerField(default=1)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user'],
+                                    condition=models.Q(is_active=True),
+                                    name='unique_is_active')]
+
     def get_total_amount(self):
         total_amount = 0
         for item in self.order_items.iterator():
@@ -63,7 +69,7 @@ class Order(PKMixin):
             if self.discount.discount_type == DiscountTypes.PERCENT:
                 total_amount -= (total_amount * (self.discount.amount / 100))
             else:
-                total_amount -= self.discount
+                total_amount -= self.discount.amount
         return total_amount
 
 

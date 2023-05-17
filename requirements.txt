@@ -11,3 +11,4 @@ django-extensions==3.2.1
 requests~=2.29.0
 django-celery-beat==2.5.0
 django-lifecycle==1.0.0
+phonenumbers==8.13.11

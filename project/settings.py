@@ -59,7 +59,9 @@ INSTALLED_APPS = [
     'main',
     "tracking",
     'favourites',
-    'currencies'
+    'currencies',
+    "phonenumbers",
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +127,9 @@ LOGIN_REDIRECT_URL = reverse_lazy('main')
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 AUTH_USER_MODEL = 'accounts.User'
 
+AUTHENTICATION_BACKENDS = [
+    "accounts.auth_backends.EmailOrPhoneModelBackend"
+]
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

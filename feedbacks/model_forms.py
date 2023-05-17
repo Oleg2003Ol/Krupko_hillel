@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils.html import strip_tags
 from django import forms
@@ -26,10 +27,11 @@ class FeedbackModelForm(forms.ModelForm):
     #     form.save()
     #     return super().form_valid(form)
 
-    def save(self, commit=True, user=None):
+    def save(self, commit=True, user=None, request=None):
         feedback = super().save(commit=False)
         if user:
             feedback.user = user
         if commit:
             feedback.save()
+        messages.success(request, 'Feedback posted!')
         return feedback

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -10,9 +11,8 @@ class FavouriteProductsView(ListView):
     model = FavouriteProduct
 
     def get_queryset(self):
-        qs = FavouriteProduct.objects.select_related('product', 'user') \
+        return FavouriteProduct.objects.select_related('product', 'user') \
             .prefetch_related('product__products')
-        return qs
 
 
 class FavouriteActionView(DetailView):
@@ -25,8 +25,11 @@ class FavouriteActionView(DetailView):
             product=product,
             user=user
         )
+        if created:
+            messages.success(request, 'Product add to Favorites!')
         if not created:
             favorite.delete()
+            messages.success(request, 'Product delete from Favorites!')
         return HttpResponseRedirect(reverse_lazy('products'))
 
 

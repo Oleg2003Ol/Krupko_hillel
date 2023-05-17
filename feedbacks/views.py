@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.urls import reverse_lazy
@@ -19,7 +21,7 @@ class FeedbackView(FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.save(user=self.request.user)
+        form.save(user=self.request.user, request=self.request)
         return super().form_valid(form)
 
     def get_form_kwargs(self):

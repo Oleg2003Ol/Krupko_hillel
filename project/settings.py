@@ -36,6 +36,8 @@ SECRET_KEY = env.str('SECRET_KEY', default='SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
+ENABLE_SILK = env.bool('ENABLE_SILK', default=False)
+
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 ADMINS = (('Admin', 'oleg.krupko.2003@gmail.com'), )
@@ -63,8 +65,11 @@ INSTALLED_APPS = [
     "tracking",
     'favourites',
     'currencies',
-
 ]
+if DEBUG:
+    INSTALLED_APPS.append('silk')
+    # INSTALLED_APPS.append("debug_toolbar")
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,6 +81,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "project.middlewares.TrackingMiddleware"
 ]
+
+
+if DEBUG:
+    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
+    # MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'project.urls'
 

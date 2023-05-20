@@ -1,6 +1,7 @@
 import csv
 
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Prefetch
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, FormView
@@ -8,7 +9,7 @@ from django.http import HttpResponse
 from django.views import View
 
 from .forms import ImportCSVForm
-from .models import Product
+from .models import Product, Category
 
 
 class ProductsListView(ListView):
@@ -16,6 +17,14 @@ class ProductsListView(ListView):
     template_name = 'products/index.html'
     context_object_name = 'products'
 
+    def get_queryset(self):
+        return (
+            Product.objects.prefetch_related(
+                Prefetch('categories', queryset=Category.objects.only('name')),
+                Prefetch('products', queryset=Product.objects.only('name'))
+            )
+            .all()
+        )
 
 @method_decorator(login_required, name='dispatch')
 class ExportCSVView(View):

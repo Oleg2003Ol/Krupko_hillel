@@ -38,7 +38,7 @@ class FeedbackList(ListView):
     def get_queryset(self):
         queryset = cache.get(FeedbackCacheKeys.FEEDBACKS)
         if not queryset:
-            queryset = Feedback.objects.all()
+            queryset = Feedback.objects.all().select_related('user')
             cache.set(FeedbackCacheKeys.FEEDBACKS, queryset)
 
         ordering = self.get_ordering()

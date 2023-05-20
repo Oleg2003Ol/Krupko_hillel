@@ -72,31 +72,32 @@ class CartActionForm(forms.Form):
             raise ValidationError('Wrong item id.')
         return self.cleaned_data['order_item_id']
 
-    def action(self, action, request=None):
+    def action(self, action):
         if action == 'add':
             product = self.cleaned_data['product_id']
-            order_item, created = OrderItem.objects.update_or_create(
-                order=self.instance,
-                product=product,
-                defaults=dict(price=product.price)
-            )
+            try:
+                order_item = OrderItem.objects.get(order=self.instance, product=product)
+                order_item.price = product.price
+                order_item.save()
+            except OrderItem.DoesNotExist:
+                order_item = OrderItem.objects.create(order=self.instance, product=product, price=product.price)
 
-            if not created:
+            # if not created:
                 order_item.quantity += 1
                 order_item.save()
-            messages.success(request, 'Product added to cart!')
+            # messages.success(request, 'Product added to cart!')
 
         if action == 'pay':
             self.instance.is_active = False
             self.instance.is_paid = True
             self.instance.save(update_fields=('is_active', 'is_paid'))
-            messages.success(request, 'Order successfully paid!')
+            # messages.success(request, 'Order successfully paid!')
 
         if action == 'remove':
             OrderItem.objects.filter(
                 id=self.cleaned_data['order_item_id']
             ).delete()
-            messages.success(request, 'Item successfully removed from cart!')
+            # messages.success(request, 'Item successfully removed from cart!')
         if action == 'clear':
             self.instance.order_items.all().delete()
-            messages.success(request, 'All items have been removed from the cart!')
+            # messages.success(request, 'All items have been removed from the cart!')

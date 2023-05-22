@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import os
+import os # noqa
 
 import environ
 from pathlib import Path
 
 from celery.schedules import crontab
-from django.template.context_processors import media
+from django.template.context_processors import media  # noqa
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -194,4 +194,5 @@ EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_SUBJECT_PREFIX = 'Shop - '
-CONTACT_FORM_EMAIL = env.str('CONTACT_FORM_EMAIL', default='CONTACT_FORM_EMAIL')
+CONTACT_FORM_EMAIL = env.str('CONTACT_FORM_EMAIL',
+                             default='CONTACT_FORM_EMAIL')

@@ -23,10 +23,6 @@ class FeedbackModelForm(forms.ModelForm):
         clean_text = strip_tags(text)
         return clean_text
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     return super().form_valid(form)
-
     def save(self, commit=True, user=None, request=None):
         feedback = super().save(commit=False)
         if user:

@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django_lifecycle import hook, AFTER_CREATE, AFTER_UPDATE, LifecycleModelMixin
+from django_lifecycle import hook, AFTER_CREATE, \
+    AFTER_UPDATE, LifecycleModelMixin
 
 from project.mixins.models import PKMixin
 from project.model_choices import FeedbackCacheKeys

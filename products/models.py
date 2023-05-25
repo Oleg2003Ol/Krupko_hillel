@@ -1,12 +1,7 @@
 from os import path
 
-from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.validators import MinValueValidator
-from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.utils.safestring import mark_safe
-from django.views.generic import DetailView
 
 from currencies.models import CurrencyHistory
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
@@ -31,14 +26,6 @@ class Category(PKMixin):
 
     def __str__(self):
         return self.name
-
-    def get_image(self):
-        if self.image:
-            return mark_safe(f'<img src="{self.image.url}" width="64" height="64"')
-        else:
-            return mark_safe('<b>NO IMAGE</b>')
-
-    get_image.short_description = "Image"
 
 
 class Product(PKMixin):
@@ -76,12 +63,3 @@ class Product(PKMixin):
         if not latest_rate:
             return self.price
         return self.price * latest_rate.sale
-
-    def get_image(self):
-        if self.image:
-            return mark_safe(f'<img src="{self.image.url}" width="64" height="64"')
-        else:
-            return mark_safe('<b>NO IMAGE</b>')
-
-    get_image.short_description = "Image"
-

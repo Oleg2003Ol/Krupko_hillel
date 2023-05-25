@@ -6,5 +6,3 @@ from feedbacks.models import Feedback
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
     ...
-
-

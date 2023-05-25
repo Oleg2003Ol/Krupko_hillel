@@ -1,7 +1,3 @@
-from django.db import models
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
-
-from accounts.models import User
 from project import settings
 
 

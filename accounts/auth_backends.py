@@ -40,4 +40,3 @@ class EmailOrPhoneModelBackend(ModelBackend):
         if not is_email:
             valid &= getattr(user, "is_phone_valid", False)
         return valid
-    

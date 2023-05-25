@@ -13,3 +13,10 @@ django-celery-beat==2.5.0
 django-lifecycle==1.0.0
 phonenumbers==8.13.11
 django-silk==5.0.3
+faker==18.7.0
+pytest==7.3.1
+pytest-django==4.5.2
+pytest-cov==4.0.0
+pytest-factoryboy==2.5.1
+freezegun==1.2.2
+pytest-mock==3.10.0

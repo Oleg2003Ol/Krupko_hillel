@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
-from django_lifecycle import hook, AFTER_SAVE, LifecycleModelMixin, AFTER_UPDATE
+from django_lifecycle import hook, AFTER_SAVE, LifecycleModelMixin, \
+    AFTER_UPDATE
 
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
@@ -115,4 +116,3 @@ class OrderItem(LifecycleModelMixin, PKMixin):
     def set_order_total_amount(self):
         self.order.total_amount = self.order.get_total_amount()
         self.order.save(update_fields=('total_amount',), skip_hooks=True)
-

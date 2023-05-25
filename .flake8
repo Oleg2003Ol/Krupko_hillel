@@ -3,4 +3,11 @@
         venv,
         __pycache__
         products/migrations/.
+        orders/migrations/.
+        main/migrations/.
+        feedbacks/migrations/.
+        favourites/migrations/.
+        currencies/migrations/.
+        accounts/migrations/.
+        tracking/migrations/.
         *tests*.py

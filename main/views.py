@@ -30,4 +30,3 @@ class ContactFormView(FormView):
         )
         messages.success(self.request, 'Messages sent!')
         return super().form_valid(form)
-

@@ -1,7 +1,4 @@
-from urllib import request
-
 from django import forms
-from django.contrib import messages
 from django.core.exceptions import ValidationError
 
 from orders.models import OrderItem, Discount
@@ -76,14 +73,17 @@ class CartActionForm(forms.Form):
         if action == 'add':
             product = self.cleaned_data['product_id']
             try:
-                order_item = OrderItem.objects.get(order=self.instance, product=product)
+                order_item = OrderItem.objects.get(order=self.instance,
+                                                   product=product)
                 order_item.price = product.price
                 order_item.save()
             except OrderItem.DoesNotExist:
-                order_item = OrderItem.objects.create(order=self.instance, product=product, price=product.price)
+                order_item = OrderItem.objects.create(order=self.instance,
+                                                      product=product,
+                                                      price=product.price)
 
             # if not created:
-                order_item.quantity += 1
+            #     order_item.quantity += 1
                 order_item.save()
             # messages.success(request, 'Product added to cart!')
 
@@ -100,4 +100,5 @@ class CartActionForm(forms.Form):
             # messages.success(request, 'Item successfully removed from cart!')
         if action == 'clear':
             self.instance.order_items.all().delete()
-            # messages.success(request, 'All items have been removed from the cart!')
+            # messages.success(request,
+            # 'All items have been removed from the cart!')

@@ -19,4 +19,3 @@ class FavouriteProduct(PKMixin):
 
     class Meta:
         unique_together = ('user', 'product')
-

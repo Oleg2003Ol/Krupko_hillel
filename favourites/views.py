@@ -31,5 +31,3 @@ class FavouriteActionView(DetailView):
             favorite.delete()
             messages.success(request, 'Product delete from Favorites!')
         return HttpResponseRedirect(reverse_lazy('products'))
-
-

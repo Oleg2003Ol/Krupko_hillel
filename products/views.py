@@ -26,6 +26,7 @@ class ProductsListView(ListView):
             .all()
         )
 
+
 @method_decorator(login_required, name='dispatch')
 class ExportCSVView(View):
 
@@ -35,16 +36,19 @@ class ExportCSVView(View):
             'Content-Disposition': 'attachment; filename="products.csv"'
         }
         response = HttpResponse(headers=headers)
-        fields_name = ['name', 'description', 'sku', 'image', 'price', 'is_active', 'categories']
+        fields_name = ['name', 'description', 'sku', 'image',
+                       'price', 'is_active', 'categories']
         writer = csv.DictWriter(response, fieldnames=fields_name)
         writer.writeheader()
         for product in Product.objects.iterator():
-            categories = ", ".join([category.name for category in product.categories.all()])
+            categories = ", ".join(
+                [category.name for category in product.categories.all()])
             writer.writerow(
                 {
                     'name': product.name,
                     'description': product.description,
-                    'image': product.image.name if product.image else 'no image',
+                    'image': product.image.name if product.image
+                    else 'no image',
                     'sku': product.sku,
                     'price': product.price,
                     'is_active': product.is_active,

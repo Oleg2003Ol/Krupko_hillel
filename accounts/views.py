@@ -1,15 +1,10 @@
-import datetime
-import time
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.utils import timezone
 from django.views import View
 from django.core.cache import cache
 from django.views.generic import FormView, ListView
@@ -51,13 +46,16 @@ class ProfileListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['form'] = self.form_class(self.request.POST, instance=self.get_queryset().first())
+            context['form'] = self.form_class(
+                self.request.POST, instance=self.get_queryset().first())
         else:
-            context['form'] = self.form_class(instance=self.get_queryset().first())
+            context['form'] = self.form_class(
+                instance=self.get_queryset().first())
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, instance=self.get_queryset().first())
+        form = self.form_class(request.POST,
+                               instance=self.get_queryset().first())
         if form.is_valid():
             user = form.save(commit=False)
             if form.has_changed() and 'phone' in form.changed_data:
@@ -78,7 +76,8 @@ class VerificationPhoneView(LoginRequiredMixin, View):
 
         cache.set(cache_key, code, timeout=60)
 
-        return render(request, 'profile/verification_phone.html', {'user': request.user})
+        return render(request, 'profile/verification_phone.html',
+                      {'user': request.user})
 
     def post(self, request):
         code = request.POST.get('code')
@@ -95,6 +94,6 @@ class VerificationPhoneView(LoginRequiredMixin, View):
             messages.success(request, 'Phone number is verify!')
             return HttpResponseRedirect(reverse('profile'))
         else:
-            messages.error(request, 'The code is not correct, you can replace!')
+            messages.error(
+                request, 'The code is not correct, you can replace!')
             return HttpResponseRedirect(reverse('verify_phone'))
-

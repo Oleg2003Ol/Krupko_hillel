@@ -1,5 +1,3 @@
-from urllib import request
-
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.urls import reverse_lazy

@@ -11,4 +11,3 @@ urlpatterns = [
          login_required(FavouriteActionView.as_view()),
          name='add_or_remove_favorite'),
 ]
-

@@ -25,7 +25,8 @@ class ImportCSVForm(forms.Form):
                 try:
                     category = Category.objects.get(name=product['categories'])
                 except Category.DoesNotExist:
-                    category = Category.objects.create(name=product['categories'])
+                    category = Category.objects.create(
+                        name=product['categories'])
                 try:
                     new_product, created = Product.objects.get_or_create(
                         name=product['name'],

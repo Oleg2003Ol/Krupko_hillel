@@ -12,8 +12,9 @@ def test_homepage(client):
 
 def test_contact_form_view(client, faker):
     form_data = {'name': faker.word(), 'message': faker.text()}
-    response = client.post(reverse('contact_form'), form_data)
+    response = client.post(reverse('contact_form'), form_data)  # Замените 'contact-form' на имя URL-шаблона вашей вью
 
+    # Проверка ответа
     assert response.status_code == 302
     assert response.url == reverse('main')
 
@@ -24,6 +25,7 @@ def test_contact_form_view(client, faker):
     assert email.from_email == settings.DEFAULT_FROM_EMAIL
     assert email.to == [settings.CONTACT_FORM_EMAIL]
 
+    # Проверка наличия сообщения об успешной отправке формы
     messages = list(response.wsgi_request._messages)
     assert len(messages) == 1
     assert str(messages[0]) == 'Messages sent!'

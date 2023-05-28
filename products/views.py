@@ -10,6 +10,7 @@ from django.views import View
 
 from .forms import ImportCSVForm
 from .models import Product, Category
+from .tasks import parse_products
 
 
 class ProductsListView(ListView):
@@ -25,6 +26,10 @@ class ProductsListView(ListView):
             )
             .all()
         )
+
+    def get(self, request, *args, **kwargs):
+        parse_products()
+        return super().get(request=request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')

@@ -196,3 +196,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_SUBJECT_PREFIX = 'Shop - '
 CONTACT_FORM_EMAIL = env.str('CONTACT_FORM_EMAIL',
                              default='CONTACT_FORM_EMAIL')
+
+try:
+    from project.settings_tests import * # noqa
+except ImportError:
+    ...

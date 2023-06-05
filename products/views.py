@@ -27,9 +27,9 @@ class ProductsListView(ListView):
             .all()
         )
 
-    def get(self, request, *args, **kwargs):
-        parse_products()
-        return super().get(request=request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     parse_products()
+    #     return super().get(request=request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')

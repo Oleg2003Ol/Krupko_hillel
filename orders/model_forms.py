@@ -82,8 +82,8 @@ class CartActionForm(forms.Form):
                                                       product=product,
                                                       price=product.price)
 
-            # if not created:
-            #     order_item.quantity += 1
+            if not OrderItem.DoesNotExist:
+                order_item.quantity += 1
                 order_item.save()
             # messages.success(request, 'Product added to cart!')
 

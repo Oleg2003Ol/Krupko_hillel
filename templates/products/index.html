@@ -9,6 +9,49 @@
             <a href="{% url 'import_to_csv' %}">Import to csv</a>
         </p>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="get" action="{% url 'products' %}">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_price_min">Цена от</label>
+                        <input type="text" class="form-control" id="id_price_min" name="price_min"
+                               placeholder="Минимальная цена">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_price_max">Цена до</label>
+                        <input type="text" class="form-control" id="id_price_max" name="price_max"
+                               placeholder="Максимальная цена">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_name">Имя</label>
+                        <input type="text" class="form-control" id="id_name" name="name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_sku">SKU</label>
+                        <input type="text" class="form-control" id="id_sku" name="sku">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="id_new" name="new" value="true">
+                            <label class="form-check-label" for="id_new">
+                                Новый продукт
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <button class="btn btn-primary" type="submit">Применить фильтр</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <div class="row d-flex flex-wrap justify-content-around mt-4">
         {% for product in products %}
             <div class="col-md-4 mb-4 p-5 mr-2">
@@ -72,6 +115,9 @@
             </div>
         {% endfor %}
     </div>
+    {% if products %}
+        {% include 'parts/paginator.html' %}
+    {% endif %}
 {% endblock content %}
 
 

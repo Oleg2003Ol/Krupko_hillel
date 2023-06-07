@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'django_extensions',
     "phonenumbers",
+    'django_filters',
 
     'products',
     'orders',

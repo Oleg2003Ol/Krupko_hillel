@@ -4,19 +4,24 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Prefetch
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, FormView
+from django.views.generic import FormView
 from django.http import HttpResponse
 from django.views import View
+from django.core.paginator import Paginator
+from django_filters.views import FilterView
 
+from .filters import ProductFilter
 from .forms import ImportCSVForm
 from .models import Product, Category
 from .tasks import parse_products
 
 
-class ProductsListView(ListView):
+class ProductsListView(FilterView):
     model = Product
     template_name = 'products/index.html'
     context_object_name = 'products'
+    paginate_by = 8
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         return (

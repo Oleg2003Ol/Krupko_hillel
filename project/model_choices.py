@@ -14,3 +14,7 @@ class Currencies(TextChoices):
 
 class FeedbackCacheKeys(TextChoices):
     FEEDBACKS = 'feedbacks', 'Feedbacks all'
+
+
+class ProductCacheKeys(TextChoices):
+    PRODUCTS = 'products', 'Products all'

@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'django_extensions',
     "phonenumbers",
     'django_filters',
+    'rest_framework',
+    'drf_yasg',
 
     'products',
     'orders',

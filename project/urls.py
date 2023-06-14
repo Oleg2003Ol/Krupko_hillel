@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from products.urls import urlpatterns as products_urlpatterns
 from feedbacks.urls import urlpatterns as feedbacks_urlpatterns
@@ -51,7 +52,8 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=[AllowAny],
+    permission_classes=[IsAuthenticated],
+    authentication_classes=[SessionAuthentication]
 )
 
 urlpatterns_swagger = [

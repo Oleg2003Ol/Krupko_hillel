@@ -2,8 +2,8 @@ from rest_framework import generics, viewsets
 from rest_framework.permissions import AllowAny
 
 from apis.products.serializers import ProductListSerializer, \
-    ProductDetailSerializer, ProductDeleteSerializer, ProductCreateSerializer, \
-    ProductSerializer
+    ProductDetailSerializer, ProductDeleteSerializer, \
+    ProductCreateSerializer, ProductSerializer
 from products.models import Product
 
 

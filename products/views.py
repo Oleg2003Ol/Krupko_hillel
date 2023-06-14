@@ -8,7 +8,6 @@ from django.utils.decorators import method_decorator
 from django.views.generic import FormView, DetailView
 from django.http import HttpResponse, Http404
 from django.views import View
-from django.core.paginator import Paginator
 from django_filters.views import FilterView
 
 from .filters import ProductFilter
@@ -75,6 +74,7 @@ class ProductDetail(DetailView):
                 % {"verbose_name": queryset.model._meta.verbose_name}
             )
         return obj
+
 
 @method_decorator(login_required, name='dispatch')
 class ExportCSVView(View):

@@ -2,7 +2,7 @@ import csv
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.cache import cache
-from django.db.models import Prefetch
+from django.db.models import OuterRef, Exists
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, DetailView
@@ -10,6 +10,7 @@ from django.http import HttpResponse, Http404
 from django.views import View
 from django_filters.views import FilterView
 
+from favourites.models import FavouriteProduct
 from .filters import ProductFilter
 from .forms import ImportCSVForm
 from .models import Product, Category
@@ -18,20 +19,32 @@ from project.model_choices import ProductCacheKeys
 
 
 class ProductsListView(FilterView):
-    model = Product
     template_name = 'products/index.html'
     context_object_name = 'products'
+    model = Product
+    ordering = '-created_at'
     paginate_by = 8
     filterset_class = ProductFilter
 
     def get_queryset(self):
-        return (
-            Product.objects.prefetch_related(
-                Prefetch('categories', queryset=Category.objects.only('name')),
-                Prefetch('products', queryset=Product.objects.only('name'))
-            )
-            .all()
+        queryset = cache.get(ProductCacheKeys.PRODUCTS)
+        if not queryset:
+            queryset = Product.objects.prefetch_related('categories',
+                                                        'products').all()
+            cache.set(ProductCacheKeys.PRODUCTS, queryset)
+        ordering = self.get_ordering()
+        if ordering:
+            if isinstance(ordering, str):
+                ordering = (ordering,)
+            queryset = queryset.order_by(*ordering)
+        favourite = FavouriteProduct.objects.filter(
+            product=OuterRef('pk'),
+            user=self.request.user
         )
+        queryset = queryset.annotate(
+            is_favourite=Exists(favourite)
+        )
+        return queryset
 
     # def get(self, request, *args, **kwargs):
     #     parse_products()

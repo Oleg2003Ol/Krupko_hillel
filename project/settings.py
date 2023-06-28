@@ -39,6 +39,7 @@ DEBUG = env.bool('DEBUG', default=True)
 ENABLE_SILK = env.bool('ENABLE_SILK', default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
 
 ADMINS = (('Admin', 'oleg.krupko.2003@gmail.com'), )
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'django_celery_results',
     'widget_tweaks',
@@ -109,14 +111,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+ASGI_APPLICATION = 'project.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": env("SQL_DATABASE", default="SQL_DATABASE"),
+        "USER": env("SQL_USER", default="SQL_USER"),
+        "PASSWORD": env("SQL_PASSWORD", default="SQL_PASSWORD"),
+        "HOST": env("SQL_HOST", default="SQL_HOST"),
+        "PORT": env("SQL_PORT", default="5432"),
     }
 }
 
@@ -170,7 +177,7 @@ MEDIA_ROOT = 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_ALWAYS_EAGER = False
 CELERYD_POOL = 'gevent'
@@ -184,7 +191,7 @@ CELERY_BEAT_SCHEDULE = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379',
+        'LOCATION': 'redis://redis:6379',
     }
 }
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -200,7 +207,7 @@ EMAIL_SUBJECT_PREFIX = 'Shop - '
 CONTACT_FORM_EMAIL = env.str('CONTACT_FORM_EMAIL',
                              default='CONTACT_FORM_EMAIL')
 
-try:
-    from project.settings_tests import * # noqa
-except ImportError:
-    ...
+# try:
+#     from project.settings_tests import * # noqa
+# except ImportError:
+#     ...

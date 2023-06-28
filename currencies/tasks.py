@@ -19,20 +19,6 @@ def delete_old_currencies():
 
 @shared_task
 def get_currencies_task():
-    clients = [privatbank_client, monobank_client]
-
-    for client in clients:
-        client_data = client.save()
-        if client_data:
-            results = []
-            for i in client_data:
-                results.append(
-                    CurrencyHistory(
-                        **i
-                    )
-                )
-            if results:
-                CurrencyHistory.objects.bulk_create(results)
-            break
-    else:
-        raise ValidationError('No bank client.')
+    privatbank_client.save()
+    monobank_client.save()
+    delete_old_currencies.delay()

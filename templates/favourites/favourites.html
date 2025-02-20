@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Избранные товары:</h1>
+  <ul>
+    {% for item in items %}
+      <li>{{ item.name }}</li>
+    {% empty %}
+      <li>Нет избранных товаров.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

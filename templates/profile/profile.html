@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Update Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% if request.user.is_phone_valid %}
+                            <p class="text-success">Your phone number is verified.</p>
+                        {% else %}
+                            <p class="text-danger">Your phone number is not verified.</p>
+                            <p>Do you want verification? <a href="{% url 'verify_phone' %}">Click here</a></p>
+                        {% endif %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

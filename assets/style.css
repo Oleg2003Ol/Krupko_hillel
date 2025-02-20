@@ -1,0 +1,12 @@
+.logo {
+    width: 60px;
+}
+
+.product-img {
+    height: 400px;
+    object-fit: cover;
+}
+
+.sub-product .product-img {
+        max-height: 100px;
+    }
